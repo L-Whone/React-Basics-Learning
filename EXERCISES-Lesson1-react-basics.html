@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+  </head>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev@3.2.1/external-library.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script src="https://unpkg.com/supersimpledev/dayjs.js"></script>
+
+    <script type="text/babel">
+      const button = <button>Good Job !</button>;
+      const paragraph = <p>My name is Vi Tri Tran AKA L1</p>;
+
+      const divContainer = (
+        <div>
+          <h1>Header</h1>
+          {button}
+          {paragraph}
+        </div>
+      );
+
+      const itemSocks = (
+        <div>
+          <p>Cotton Socks</p>
+          <p>Price: {"$10"}</p>
+          <button>Add To Cart</button>
+        </div>
+      );
+
+      const productCost = 8 + 5*2;
+      const shippingCost = 5;
+
+      const mockShop = (
+        <div>
+          <p>Product Cost: ${productCost}</p>  
+          <p>Shipping Cost: ${shippingCost}</p>
+          <p>Total Cost: ${productCost + shippingCost}</p>
+          <button>Place Order</button>
+        </div>
+      );
+
+      const date = (
+        <p>{dayjs().format('YYYY MMMM D')}</p>
+      );
+
+      const time = (
+        <p>{dayjs().format('HH:mm:ss')}</p>
+      )
+
+      const app = (
+        <div>
+          {itemSocks}
+          {mockShop}
+          {date}
+          {time}
+        </div>
+      );
+      
+      const container = document.querySelector('.js-container');
+      
+      const root = ReactDOM.createRoot(container);
+      root.render(app);
+
+      setInterval(() => {
+        const time = (
+          <p>{dayjs().format('HH:mm:ss')}</p>
+        )
+
+        const app = (
+          <div>
+            {itemSocks}
+            {mockShop}
+            {date}
+            {time}
+          </div>
+        );
+
+        root.render(app);
+      }, 100);
+      
+    </script>
+  </body>
+</html>

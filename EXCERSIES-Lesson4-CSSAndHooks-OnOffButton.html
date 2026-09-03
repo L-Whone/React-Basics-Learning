@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>React Basics</title>
+  </head>
+  <style>
+    .on-button {
+      background-color: rgb(25, 135, 84);
+      border-style: none;
+      border-radius: 5px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      padding-left: 15px;
+      padding-right: 15px;
+      color: white;
+    }
+      .on-button:hover {
+        background-color: rgb(22, 119, 74);;
+      }
+      .on-button:active {
+        background-color: rgba(25, 135, 84, .7);;
+      }
+
+    .off-button {
+      background-color: rgb(220, 53, 69);
+      border-style: none;
+      border-radius: 5px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      padding-left: 15px;
+      padding-right: 15px;
+      color: white;
+    }
+      .off-button:hover {
+        background-color: rgb(190, 46, 60);;
+      }
+      .off-button:active {
+        background-color: rgb(220, 53, 69, .7);
+      }
+  </style>
+  <body>
+    <div class="js-container"></div>
+
+    <script src="https://unpkg.com/supersimpledev@3.2.1/external-library.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/react.js"></script>
+    <script src="https://unpkg.com/supersimpledev/react-dom.js"></script>
+
+    <script src="https://unpkg.com/supersimpledev/babel.js"></script>
+    <script type="text/babel">
+
+      function OnButton() {
+        const [isButtonOn, setIsButtonOn] = React.useState(true);
+
+        function onClick() {
+          setIsButtonOn(!isButtonOn);
+        }
+
+        return (
+          <>
+            <button 
+              className={isButtonOn ? "on-button" : "off-button"}
+              onClick={onClick}
+            >
+              {isButtonOn ? "ON" : "OFF"}
+            </button>
+          </>
+        )
+      }
+      
+      function App()
+      {
+
+        return(
+          <>
+           <OnButton />
+          </>
+        )
+      }
+
+      const container = document.querySelector('.js-container');
+      ReactDOM.createRoot(container).render(<App />);
+    </script>
+  </body>
+</html>
