@@ -47,6 +47,15 @@
       .chat-message-profile {
         width: 50px;
       }
+      .chat-notice-text {
+        color: rgb(186, 186, 186);
+        justify-self: center;
+      }
+
+      .loading-spinner {
+        height: 40px;
+        margin: -15px;
+      }
 
       .send-button {
         background-color: rgb(25, 135, 84);
@@ -71,6 +80,7 @@
         border-width: 1px;
         font-size: 15px;
         flex-grow: 1;
+        border-style: solid;
       }
     </style>
   </head>
@@ -85,6 +95,20 @@
 
     <script src="https://unpkg.com/supersimpledev/babel.js"></script>
     <script type="text/babel">
+
+      function useAutoScroll(dependenies) {
+        const containerRef = React.useRef(null);
+
+        React.useEffect(() => {
+          const containerElem = containerRef.current;
+          if (containerElem) {
+            containerElem.scrollTop = containerElem.scrollHeight;
+          }
+        }, [dependenies]);
+
+        return containerRef;
+      }
+
       function ChatInput({chatMessage, setChatMessage}) {
         const [textValue, setTextValue] = React.useState('');
         const [isLoading, setIsLoading] = React.useState(false);
@@ -106,7 +130,7 @@
           setChatMessage([
             ...tempChatMessages, 
             {
-              message: 'Loading...',
+              message: <img src="resources/loading-spinner.gif" className="loading-spinner"/>,
               imgSource: 'resources/robot.png',
               left: true,
               id: crypto.randomUUID()
@@ -188,7 +212,7 @@
       }
 
       function ChatMessages({chatMessages}) {
-        const chatMessageRef = React.useRef(null);
+        const chatMessageRef = useAutoScroll([chatMessages]);
 
         React.useEffect(() => {
           const containerElem = chatMessageRef.current;
@@ -199,43 +223,31 @@
 
         return (
           <div className="chat-messages-container" ref={chatMessageRef}>
-            {chatMessages.map((chatMessage) => {
-              return (
-                <ChatMessage 
-                  message={chatMessage.message}
-                  imgSource={chatMessage.imgSource}
-                  left={chatMessage.left}
-                  key={chatMessage.id}
-                />
-              )
-            })}          
+            {chatMessages.length === 0 ? 
+              <>
+              <p className="chat-notice-text">Welcome to the chatbot project ! Send a message using the textbox below</p>
+              </> : 
+              <>
+                {chatMessages.map((chatMessage) => {
+                  return (
+                    <ChatMessage 
+                      message={chatMessage.message}
+                      imgSource={chatMessage.imgSource}
+                      left={chatMessage.left}
+                      key={chatMessage.id}
+                    />
+                  )
+                })}
+              </>
+            }
+                     
           </div>
         )
       }
 
       function App()
       {
-        const [chatMessages, setChatMessage] = React.useState([{
-          message: 'hello Chatbot',
-          imgSource: 'resources/user.png',
-          left: false,
-          id: "id1"
-        }, {
-          message: 'hello, how can I help you ?',
-          imgSource: 'resources/robot.png',
-          left: true,
-          id: "id2"
-        }, {
-          message: 'what is todays date ?',
-          imgSource: 'resources/user.png',
-          left: false,
-          id: "id3"
-        }, {
-          message: 'hello, how can I help you ?',
-          imgSource: 'resources/robot.png',
-          left: true,
-          id: "id4"
-        }]);
+        const [chatMessages, setChatMessage] = React.useState([]);
 
         return(
           <div className="app-container">
